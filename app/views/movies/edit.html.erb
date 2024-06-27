@@ -4,19 +4,19 @@
   <p style="color: red;"><%= message %></p>
 <% end %>
 
-<%= form_with(url: movie_path(@movie), method: :patch, data: {turbo: false}) do %>
+<%= form_with model: @movie, method: :patch, data: {turbo: false} do |form| %>
   
   <input name="_method" value="patch" type="hidden">
 
   <div>
-    <%= label_tag :title, "Title" %>
-    <%= text_field_tag :title, @movie.title, {id: "title"} %>
+    <%= form.label :title %>
+    <%= form.text_field :title %>
   </div>
 
   <div>
-    <%= label_tag :description, "Description" %>
-    <%= text_area_tag :description, @movie.description, {id: "description", rows: 3} %>
+    <%= form.label :description %>
+    <%= form.text_area :description, {rows: 3} %>
   </div>
 
-  <%= button_tag "Update movie" %>
+  <%= form.button %>
 <% end %>

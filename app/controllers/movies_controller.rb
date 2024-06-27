@@ -22,10 +22,8 @@ class MoviesController < ApplicationController
   end
 
   def create
-    @movie = Movie.new
-    @movie.title = params.fetch(:title)
-    @movie.description = params.fetch(:description)
-
+    movie_attributes = params.require(:movie).permit(:title, :description)
+    @movie = Movie.new(movie_attributes)
     if @movie.valid?
       @movie.save
       redirect_to(movies_url, { :notice => "Movie created successfully." })
@@ -41,11 +39,13 @@ class MoviesController < ApplicationController
   end
 
   def update
+    movie_attributes = params.require(:movie).permit(:title, :description)
+
     movie = Movie.find(params.fetch(:id))
 
-    movie.title = params.fetch(:title)
-    movie.description = params.fetch(:description)
-
+    movie[:title] = movie_attributes[:title]
+    movie[:description] = movie_attributes[:description]
+    
     if movie.valid?
       movie.save
       redirect_to(movie_url(movie), { :notice => "Movie updated successfully."} )
